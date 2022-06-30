@@ -1,5 +1,15 @@
 # httpstats
 
+```go
+import "github.com/thiagonache/httpstats"
+
+func main() {
+  s := httpstats.NewHTTPStats()
+  c := &http.Client{Transport: s}
+  ...
+}
+```
+
 The idea of this package is to provide an easy way to collect detailed HTTP
 metrics. It implements a HTTP Round Tripper that uses HTTPTrace Package.
 
