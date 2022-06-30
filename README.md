@@ -62,6 +62,7 @@ s := httpstats.NewHTTPStats()
 c := &http.Client{Transport: s}
 ...
 fmt.Println(s.DNS)
+fmt.Println(s.Connect)
 ```
 
 Output
@@ -80,4 +81,5 @@ Output
 }
 
 [9.454983ms]
+[147.036392ms]
 ```
