@@ -3,16 +3,27 @@ package httpstats
 import (
 	"net/http"
 	"net/http/httptrace"
+	"sync"
 	"time"
 )
 
 type Stats struct {
-	DNS  time.Duration
+	mu   *sync.Mutex
+	DNS  []time.Duration
 	next http.RoundTripper
 }
 
 func NewHTTPStats() *Stats {
-	return &Stats{next: http.DefaultTransport}
+	return &Stats{
+		next: http.DefaultTransport,
+		mu:   &sync.Mutex{},
+	}
+}
+
+func (s *Stats) RecordDNSTime(took time.Duration) {
+	s.mu.Lock()
+	s.DNS = append(s.DNS, took)
+	s.mu.Unlock()
 }
 
 func (s *Stats) RoundTrip(r *http.Request) (*http.Response, error) {
@@ -22,7 +33,7 @@ func (s *Stats) RoundTrip(r *http.Request) (*http.Response, error) {
 			dns = time.Now()
 		},
 		DNSDone: func(info httptrace.DNSDoneInfo) {
-			s.DNS = time.Since(dns)
+			s.RecordDNSTime(time.Since(dns))
 		},
 	}
 	ctCtx := httptrace.WithClientTrace(r.Context(), ct)

@@ -19,7 +19,7 @@ func TestNewRequestWithMethodGetTracksDNSTime(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	if s.DNS <= 0 {
+	if s.DNS[0] <= 0 {
 		t.Errorf("want DNS time to be bigger than 0, got %v", s.DNS)
 	}
 }
@@ -31,7 +31,7 @@ func TestGetTracksDNSTime(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	if s.DNS <= 0 {
+	if s.DNS[0] <= 0 {
 		t.Errorf("want DNS time to be bigger than 0, got %v", s.DNS)
 	}
 }
