@@ -20,7 +20,24 @@ func TestNewRequestWithMethodGetTracksDNSTime(t *testing.T) {
 		t.Fatal(err)
 	}
 	if s.DNS[0] <= 0 {
-		t.Errorf("want DNS time to be bigger than 0, got %v", s.DNS)
+		t.Errorf("want DNS time to be bigger than 0, got %v", s.DNS[0])
+	}
+}
+
+func TestNewRequestWithMethodGetTracksConnectTime(t *testing.T) {
+	t.Parallel()
+	s := httpstats.NewHTTPStats()
+	c := &http.Client{Transport: s}
+	req, err := http.NewRequest(http.MethodGet, "https://httpbin.org/get", nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+	_, err = c.Do(req)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if s.Connect[0] <= 0 {
+		t.Errorf("want Connect time to be bigger than 0, got %v", s.Connect[0])
 	}
 }
 
