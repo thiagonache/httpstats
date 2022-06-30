@@ -11,11 +11,11 @@ func main() {
 ```
 
 The idea of this package is to provide an easy way to collect detailed HTTP
-metrics. It implements a HTTP Round Tripper that uses HTTPTrace Package.
+metrics from the client. It implements a HTTP Round Tripper that uses HTTPTrace Package.
 
-You just need to instantiate the object and inject in the Transport field of
-your HTTP Client. In case you already implement a custom round tripper this
-package will provide a optional function to set the next round tripper instead
+You just need to instantiate the object and inject it in the Transport field of
+your HTTP Client. In case you already implement a custom HTTP Round Tripper, this
+package will provide a functional option to set the next round tripper instead
 of calling the default one.
 
 ## Example
