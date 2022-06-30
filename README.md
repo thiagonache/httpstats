@@ -1,5 +1,15 @@
 # httpstats
 
+The idea of this package is to provide an easy way to collect detailed HTTP
+metrics. It implements a HTTP Round Tripper that uses HTTPTrace Package.
+
+You just need to instantiate the object and inject in the Transport field of
+your HTTP Client. In case you already implement a custom round tripper this
+package will provide a optional function to set the next round tripper instead
+of calling the default one.
+
+## Example
+
 Usual http call code
 
 ```go
@@ -19,6 +29,8 @@ if err != nil {
 fmt.Println(string(body))
 ```
 
+Output
+
 ```json
 {
   "args": {},
@@ -33,7 +45,7 @@ fmt.Println(string(body))
 }
 ```
 
-Getting HTTP detailed metrics
+Using this package to get detailed metrics.
 
 ```go
 s := httpstats.NewHTTPStats()
@@ -41,6 +53,8 @@ c := &http.Client{Transport: s}
 ...
 fmt.Println(s.DNS)
 ```
+
+Output
 
 ```json
 {
