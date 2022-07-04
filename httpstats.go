@@ -6,18 +6,14 @@ import (
 	"io/ioutil"
 	"net/http"
 	"net/http/httptrace"
-	"sync"
 	"time"
 )
 
 type Stats struct {
-	client  *http.Client
-	next    http.RoundTripper
-	startAt time.Time
-
-	mu       *sync.Mutex
+	client   *http.Client
 	Connect  []time.Duration
 	DNS      []time.Duration
+	next     http.RoundTripper
 	Send     []time.Duration
 	TLS      []time.Duration
 	Total    []time.Duration
@@ -28,7 +24,6 @@ type Stats struct {
 func NewHTTPStats(opts ...Option) *Stats {
 	stats := &Stats{
 		client: &http.Client{},
-		mu:     &sync.Mutex{},
 		next:   http.DefaultTransport,
 	}
 	for _, o := range opts {
