@@ -7,84 +7,30 @@ import (
 	"github.com/thiagonache/httpstats"
 )
 
-func TestNewRequestWithMethodGetTracksDNSTime(t *testing.T) {
+func TestNewHTTPStats_CreatesEmptyPointerObject(t *testing.T) {
 	t.Parallel()
-	s := httpstats.NewHTTPStats()
-	c := &http.Client{Transport: s}
-	req, err := http.NewRequest(http.MethodGet, "https://httpbin.org/get", nil)
+	want := &httpstats.Stats{}
+	got := httpstats.NewHTTPStats()
+	if want != got {
+		t.Errorf("want a pointer to an empty stats object (%v), got %v", want, got)
+	}
+}
+
+func TestSetHTTPTrace_TracksDNSTime(t *testing.T) {
+	t.Parallel()
+	hstats := httpstats.NewHTTPStats()
+	req, err := http.NewRequest(http.MethodGet, "https://example.com", nil)
 	if err != nil {
 		t.Fatal(err)
 	}
+	req = hstats.SetHTTPTrace(req)
+	c := &http.Client{}
 	_, err = c.Do(req)
 	if err != nil {
 		t.Fatal(err)
 	}
-	if s.DNS[0] <= 0 {
-		t.Errorf("want DNS time to be bigger than 0, got %v", s.DNS[0])
-	}
-}
-
-func TestNewRequestWithMethodGetTracksConnectTime(t *testing.T) {
-	t.Parallel()
-	s := httpstats.NewHTTPStats()
-	c := &http.Client{Transport: s}
-	req, err := http.NewRequest(http.MethodGet, "https://httpbin.org/get", nil)
-	if err != nil {
-		t.Fatal(err)
-	}
-	_, err = c.Do(req)
-	if err != nil {
-		t.Fatal(err)
-	}
-	if s.Connect[0] <= 0 {
-		t.Errorf("want Connect time to be bigger than 0, got %v", s.Connect[0])
-	}
-}
-
-func TestGetTracksDNSTime(t *testing.T) {
-	t.Parallel()
-	s := httpstats.NewHTTPStats()
-	_, err := s.Get("https://httpbin.org/get")
-	if err != nil {
-		t.Fatal(err)
-	}
-	if s.DNS[0] <= 0 {
-		t.Errorf("want DNS time to be bigger than 0, got %v", s.DNS[0])
-	}
-}
-
-func TestGetTracksTLSTime(t *testing.T) {
-	t.Parallel()
-	s := httpstats.NewHTTPStats()
-	_, err := s.Get("https://httpbin.org/get")
-	if err != nil {
-		t.Fatal(err)
-	}
-	if s.TLS[0] <= 0 {
-		t.Errorf("want TLS time to be bigger than 0, got %v", s.TLS[0])
-	}
-}
-
-func TestGetTracksSendTime(t *testing.T) {
-	t.Parallel()
-	s := httpstats.NewHTTPStats()
-	_, err := s.Get("https://httpbin.org/get")
-	if err != nil {
-		t.Fatal(err)
-	}
-	if s.Send[0] <= 0 {
-		t.Errorf("want Send time to be bigger than 0, got %v", s.Send[0])
-	}
-}
-
-func TestGetTracksWaitTime(t *testing.T) {
-	t.Parallel()
-	s := httpstats.NewHTTPStats()
-	_, err := s.Get("https://httpbin.org/get")
-	if err != nil {
-		t.Fatal(err)
-	}
-	if s.Wait[0] <= 0 {
-		t.Errorf("want Wait time to be bigger than 0, got %v", s.Wait[0])
+	dns := hstats.DNS[0]
+	if dns <= 0 {
+		t.Fatalf("want DNS time to be bigger than zero, got %v", dns)
 	}
 }

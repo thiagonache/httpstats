@@ -4,19 +4,22 @@
 import "github.com/thiagonache/httpstats"
 
 func main() {
-  s := httpstats.NewHTTPStats()
-  c := &http.Client{Transport: s}
-  ...
+...
+s := httpstats.NewHTTPStats()
+req, _ := http.NewRequest(http.MethodGet, "https://example.com", nil)
+req = s.SetHTTPTrace(req)
+res, err := c.Do(req)
+...
 }
 ```
 
 The idea of this package is to provide an easy way to collect detailed HTTP
-metrics from the client. It implements a HTTP Round Tripper that uses HTTPTrace Package.
+metrics from the client. It exports a function that injects hooks using
+HTTPTrace Package.
 
-You just need to instantiate the object and inject it in the Transport field of
-your HTTP Client. In case you already implement a custom HTTP Round Tripper, this
-package will provide a functional option to set the next round tripper instead
-of calling the default one.
+You just need to instantiate the object and call the function `SetHTTPTrace`
+after setting up the `http.Request`. The trace will be re-used for all requests
+done using that request object.
 
 ## Example
 
@@ -59,7 +62,8 @@ Using this package to get detailed metrics.
 
 ```go
 s := httpstats.NewHTTPStats()
-c := &http.Client{Transport: s}
+...
+req = s.SetHTTPTrace(req)
 ...
 fmt.Println(s.DNS)
 fmt.Println(s.Connect)
