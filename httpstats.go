@@ -2,6 +2,7 @@ package httpstats
 
 import (
 	"crypto/tls"
+	"io"
 	"net/http"
 	"net/http/httptrace"
 	"sync"
@@ -110,4 +111,13 @@ func (s *Stats) SetHTTPTrace(r *http.Request) *http.Request {
 	ctCtx := httptrace.WithClientTrace(r.Context(), ct)
 	r = r.WithContext(ctCtx)
 	return r
+}
+
+func (s *Stats) NewRequest(method, url string, body io.Reader) (*http.Request, error) {
+	req, err := http.NewRequest(method, url, body)
+	if err != nil {
+		return nil, err
+	}
+	req = s.SetHTTPTrace(req)
+	return req, nil
 }

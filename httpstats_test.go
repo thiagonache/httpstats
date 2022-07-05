@@ -101,3 +101,19 @@ func TestSetHTTPTrace_TracksWaitTime(t *testing.T) {
 		t.Fatalf("want wait time to be bigger than zero, got %v", wait)
 	}
 }
+
+func TestNewRequest_TracksDNSTime(t *testing.T) {
+	t.Parallel()
+	s := httpstats.New()
+	req, err := s.NewRequest(http.MethodDelete, "https://httpbin.org/delete", nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+	_, err = http.DefaultClient.Do(req)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if s.DNS[0] <= 0 {
+		t.Fatalf("want dns time to be bigger than zero, got %v", s.DNS[0])
+	}
+}
