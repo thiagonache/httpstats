@@ -143,7 +143,7 @@ func TestNewRequest_WithAnyMethodTracksConnectTimeOnDo(t *testing.T) {
 	}
 }
 
-func TestNewRequest_ErrorsWithInvalidURL(t *testing.T) {
+func TestNewRequest_ErrorsWithUnsupportedScheme(t *testing.T) {
 	t.Parallel()
 	s := httpstats.New()
 	_, err := s.NewRequest("\\", "does-not-matter", nil)
