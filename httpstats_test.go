@@ -7,7 +7,7 @@ import (
 	"github.com/thiagonache/httpstats"
 )
 
-func TestSetHTTPTrace_TracksDNSTime(t *testing.T) {
+func TestSetHTTPTrace_WithAnyMethodTracksDNSTimeOnDo(t *testing.T) {
 	t.Parallel()
 	s := httpstats.New()
 	req, err := http.NewRequest(http.MethodGet, "https://example.com", nil)
@@ -25,7 +25,7 @@ func TestSetHTTPTrace_TracksDNSTime(t *testing.T) {
 	}
 }
 
-func TestSetHTTPTrace_TracksConnectTime(t *testing.T) {
+func TestSetHTTPTrace_WithAnyMethodTracksConnectTimeOnDo(t *testing.T) {
 	t.Parallel()
 	s := httpstats.New()
 	req, err := http.NewRequest(http.MethodGet, "https://example.com", nil)
@@ -43,7 +43,7 @@ func TestSetHTTPTrace_TracksConnectTime(t *testing.T) {
 	}
 }
 
-func TestSetHTTPTrace_TracksTLSTime(t *testing.T) {
+func TestSetHTTPTrace_WithAnyMethodTracksTLSTimeOnDo(t *testing.T) {
 	t.Parallel()
 	s := httpstats.New()
 	req, err := http.NewRequest(http.MethodGet, "https://example.com", nil)
@@ -61,7 +61,7 @@ func TestSetHTTPTrace_TracksTLSTime(t *testing.T) {
 	}
 }
 
-func TestSetHTTPTrace_TracksSendTime(t *testing.T) {
+func TestSetHTTPTrace_WithAnyMethodTracksSendTimeOnDo(t *testing.T) {
 	t.Parallel()
 	s := httpstats.New()
 	req, err := http.NewRequest(http.MethodGet, "https://example.com", nil)
@@ -79,7 +79,7 @@ func TestSetHTTPTrace_TracksSendTime(t *testing.T) {
 	}
 }
 
-func TestSetHTTPTrace_TracksWaitTime(t *testing.T) {
+func TestSetHTTPTrace_WithAnyMethodTracksWaitTimeOnDo(t *testing.T) {
 	t.Parallel()
 	s := httpstats.New()
 	req, err := http.NewRequest(http.MethodGet, "https://example.com", nil)
@@ -97,7 +97,7 @@ func TestSetHTTPTrace_TracksWaitTime(t *testing.T) {
 	}
 }
 
-func TestNewRequest_TracksDNSTime(t *testing.T) {
+func TestNewRequest_WithAnyMethodTracksDNSTimeOnDo(t *testing.T) {
 	t.Parallel()
 	s := httpstats.New()
 	req, err := s.NewRequest(http.MethodDelete, "https://httpbin.org/delete", nil)
