@@ -1,5 +1,8 @@
 # httpstats
 
+[![Go Reference](https://pkg.go.dev/badge/github.com/thiagonache/httpstats.svg)](https://pkg.go.dev/github.com/thiagonache/httpstats)
+[![Go Report Card](https://goreportcard.com/badge/github.com/thiagonache/httpstats)](https://goreportcard.com/report/github.com/thiagonache/httpstats)
+
 ```go
 import "github.com/thiagonache/httpstats"
 ```
