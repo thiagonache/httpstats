@@ -143,6 +143,15 @@ func TestNewRequest_WithAnyMethodTracksConnectTimeOnDo(t *testing.T) {
 	}
 }
 
+func TestNewRequest_ErrorsWithInvalidURL(t *testing.T) {
+	t.Parallel()
+	s := httpstats.New()
+	_, err := s.NewRequest("\\*", "fake.url", nil)
+	if err == nil {
+		t.Fatal("want error but got nil")
+	}
+}
+
 func TestTwoRequestsTracksMinTwoConnectTime(t *testing.T) {
 	t.Parallel()
 	s1 := httptest.NewServer(http.HandlerFunc(func(rw http.ResponseWriter, r *http.Request) {
