@@ -22,7 +22,7 @@ type Stats struct {
 	WaitStart    time.Time
 }
 
-func NewHTTPStats() *Stats {
+func New() *Stats {
 	return &Stats{
 		mu: &sync.Mutex{},
 	}
