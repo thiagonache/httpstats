@@ -146,7 +146,7 @@ func TestNewRequest_WithAnyMethodTracksConnectTimeOnDo(t *testing.T) {
 func TestNewRequest_ErrorsWithInvalidURL(t *testing.T) {
 	t.Parallel()
 	s := httpstats.New()
-	_, err := s.NewRequest("\\*", "fake.url", nil)
+	_, err := s.NewRequest("\\", "fake.url", nil)
 	if err == nil {
 		t.Fatal("want error but got nil")
 	}
