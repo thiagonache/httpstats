@@ -7,15 +7,6 @@ import (
 	"github.com/thiagonache/httpstats"
 )
 
-func TestNewHTTPStats_CreatesEmptyPointerObject(t *testing.T) {
-	t.Parallel()
-	want := &httpstats.Stats{}
-	got := httpstats.NewHTTPStats()
-	if want != got {
-		t.Errorf("want a pointer to an empty stats object (%v), got %v", want, got)
-	}
-}
-
 func TestSetHTTPTrace_TracksDNSTime(t *testing.T) {
 	t.Parallel()
 	hstats := httpstats.NewHTTPStats()
