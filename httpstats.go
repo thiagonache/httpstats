@@ -9,86 +9,88 @@ import (
 )
 
 type Stats struct {
-	mu       *sync.Mutex
-	Connect  []time.Duration
-	ConnectS time.Time
-	DNS      []time.Duration
-	DNSS     time.Time
-	Send     []time.Duration
-	SendS    time.Time
-	TLS      []time.Duration
-	TLSS     time.Time
-	Wait     []time.Duration
-	WaitS    time.Time
+	mu           *sync.Mutex
+	Connect      []time.Duration
+	ConnectStart time.Time
+	DNS          []time.Duration
+	DNSStart     time.Time
+	Send         []time.Duration
+	SendStart    time.Time
+	TLS          []time.Duration
+	TLSStart     time.Time
+	Wait         []time.Duration
+	WaitStart    time.Time
 }
 
 func NewHTTPStats() *Stats {
-	return &Stats{mu: &sync.Mutex{}}
+	return &Stats{
+		mu: &sync.Mutex{},
+	}
 }
 
 func (s *Stats) dnsStart(di httptrace.DNSStartInfo) {
 	s.mu.Lock()
-	s.DNSS = time.Now()
+	s.DNSStart = time.Now()
 	s.mu.Unlock()
 }
 
 func (s *Stats) dnsDone(di httptrace.DNSDoneInfo) {
 	s.mu.Lock()
-	s.DNS = append(s.DNS, time.Since(s.DNSS))
+	s.DNS = append(s.DNS, time.Since(s.DNSStart))
 	s.mu.Unlock()
 }
 
 func (s *Stats) connectStart(netProto, addr string) {
 	s.mu.Lock()
-	s.ConnectS = time.Now()
+	s.ConnectStart = time.Now()
 	s.mu.Unlock()
 }
 
 func (s *Stats) connectDone(netProto, addr string, err error) {
 	if err == nil {
 		s.mu.Lock()
-		s.Connect = append(s.Connect, time.Since(s.ConnectS))
+		s.Connect = append(s.Connect, time.Since(s.ConnectStart))
 		s.mu.Unlock()
 	}
 }
 
 func (s *Stats) tlsStart() {
 	s.mu.Lock()
-	s.TLSS = time.Now()
+	s.TLSStart = time.Now()
 	s.mu.Unlock()
 }
 
 func (s *Stats) tlsDone(cs tls.ConnectionState, err error) {
 	if err == nil {
 		s.mu.Lock()
-		s.TLS = append(s.TLS, time.Since(s.TLSS))
+		s.TLS = append(s.TLS, time.Since(s.TLSStart))
 		s.mu.Unlock()
 	}
 }
 
 func (s *Stats) wroteHeaderField(key string, value []string) {
 	s.mu.Lock()
-	if s.SendS.IsZero() {
-		s.SendS = time.Now()
+	if s.SendStart.IsZero() {
+		s.SendStart = time.Now()
 	}
 	s.mu.Unlock()
 }
 
 func (s *Stats) wroteHeaders() {
 	s.mu.Lock()
-	s.Send = append(s.Send, time.Since(s.SendS))
+	s.Send = append(s.Send, time.Since(s.SendStart))
 	s.mu.Unlock()
 }
 
 func (s *Stats) wroteRequest(wri httptrace.WroteRequestInfo) {
 	s.mu.Lock()
-	s.WaitS = time.Now()
+	s.WaitStart = time.Now()
 	s.mu.Unlock()
 }
 
 func (s *Stats) gotFirstResponseByte() {
 	s.mu.Lock()
-	s.Wait = append(s.Wait, time.Since(s.WaitS))
+	s.Wait = append(s.Wait, time.Since(s.WaitStart))
 	s.mu.Unlock()
 }
 
