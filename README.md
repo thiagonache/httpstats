@@ -2,14 +2,6 @@
 
 ```go
 import "github.com/thiagonache/httpstats"
-
-func main() {
-...
-s := httpstats.New()
-req, _ := s.NewRequest(http.MethodGet, "https://example.com", nil)
-res, err := c.Do(req)
-...
-}
 ```
 
 The idea of this package is to provide an easy way to collect detailed HTTP
