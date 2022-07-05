@@ -6,8 +6,7 @@ import "github.com/thiagonache/httpstats"
 func main() {
 ...
 s := httpstats.NewHTTPStats()
-req, _ := http.NewRequest(http.MethodGet, "https://example.com", nil)
-req = s.SetHTTPTrace(req)
+req, _ := s.NewRequest(http.MethodGet, "https://example.com", nil)
 res, err := c.Do(req)
 ...
 }
@@ -63,7 +62,7 @@ Using this package to get detailed metrics.
 ```go
 s := httpstats.NewHTTPStats()
 ...
-req = s.SetHTTPTrace(req)
+req, err := s.NewRequest(http.MethodGet, "https://httpbin.org/get", nil)
 ...
 fmt.Println(s.DNS)
 fmt.Println(s.Connect)
