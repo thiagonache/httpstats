@@ -15,8 +15,7 @@ func TestSetHTTPTrace_TracksDNSTime(t *testing.T) {
 		t.Fatal(err)
 	}
 	req = s.SetHTTPTrace(req)
-	c := &http.Client{}
-	_, err = c.Do(req)
+	_, err = http.DefaultClient.Do(req)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -34,8 +33,7 @@ func TestSetHTTPTrace_TracksConnectTime(t *testing.T) {
 		t.Fatal(err)
 	}
 	req = s.SetHTTPTrace(req)
-	c := &http.Client{}
-	_, err = c.Do(req)
+	_, err = http.DefaultClient.Do(req)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -53,8 +51,7 @@ func TestSetHTTPTrace_TracksTLSTime(t *testing.T) {
 		t.Fatal(err)
 	}
 	req = s.SetHTTPTrace(req)
-	c := &http.Client{}
-	_, err = c.Do(req)
+	_, err = http.DefaultClient.Do(req)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -72,8 +69,7 @@ func TestSetHTTPTrace_TracksSendTime(t *testing.T) {
 		t.Fatal(err)
 	}
 	req = s.SetHTTPTrace(req)
-	c := &http.Client{}
-	_, err = c.Do(req)
+	_, err = http.DefaultClient.Do(req)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -91,8 +87,7 @@ func TestSetHTTPTrace_TracksWaitTime(t *testing.T) {
 		t.Fatal(err)
 	}
 	req = s.SetHTTPTrace(req)
-	c := &http.Client{}
-	_, err = c.Do(req)
+	_, err = http.DefaultClient.Do(req)
 	if err != nil {
 		t.Fatal(err)
 	}
