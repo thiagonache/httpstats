@@ -6,7 +6,8 @@ import "github.com/thiagonache/httpstats"
 
 The idea of this package is to provide an easy way to collect detailed HTTP
 metrics from the client. It exports a function that injects hooks using
-HTTPTrace Package.
+[HTTPTrace](https://pkg.go.dev/net/http/httptrace) Package. If you want a better 
+understand about how HTTPTrace works read [my blog post](https://hi.thiagonbcarvalho.com/en/posts/httptrace/).
 
 You just need to instantiate the object and call the function `SetHTTPTrace`
 after setting up the `http.Request`. The trace will be re-used for all requests
