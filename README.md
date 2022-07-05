@@ -61,11 +61,11 @@ Using this package to get detailed metrics.
 
 ```go
 s := httpstats.NewHTTPStats()
-...
+c := &http.Client{}
 req, err := s.NewRequest(http.MethodGet, "https://httpbin.org/get", nil)
 ...
-fmt.Println(s.DNS)
-fmt.Println(s.Connect)
+fmt.Println("DNS:", s.DNS[0])
+fmt.Println("Connect:", s.Connect[0])
 ```
 
 Output
@@ -83,6 +83,6 @@ Output
   "url": "https://httpbin.org/get"
 }
 
-[9.454983ms]
-[147.036392ms]
+DNS: 9.454983ms
+Connect: 147.036392ms
 ```
